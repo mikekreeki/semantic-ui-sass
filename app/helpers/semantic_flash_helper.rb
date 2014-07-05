@@ -1,12 +1,13 @@
 module SemanticFlashHelper
-  ALERT_TYPES = [:error, :info, :success, :warning]
+  ALERT_TYPES = %w(error info success warning)
 
   def semantic_flash
     output = ''
     flash.each do |type, message|
       next if message.blank?
-      type = :success if type == :notice
-      type = :error   if type == :alert
+      type = type.to_s
+      type = 'success' if type == 'notice'
+      type = 'error'   if type == 'alert'
       next unless ALERT_TYPES.include?(type)
       output += flash_container(type, message)
     end
